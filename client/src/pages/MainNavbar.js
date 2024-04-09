@@ -9,6 +9,7 @@ import { useState } from "react";
 import Home from "./home/Home";
 import Product from "./product/Product";
 import Cart from "./cart/Cart";
+import Login from "./login/Login";
 
 function MainNavbar() {
   const [cart, setCart] = useState([]);
@@ -48,7 +49,7 @@ function MainNavbar() {
               EN<span class="navbar-arrow"></span>
             </span>
           </a>
-          <a className="navbar-text-button" id="navbar-signin">
+          <a className="navbar-text-button" id="navbar-signin" href="/login">
             <span className="navbar-first-line">Hello, sign in</span>
             <span className="navbar-second-line">
               Account & Lists<span class="navbar-arrow"></span>
@@ -65,42 +66,13 @@ function MainNavbar() {
             </div>
             <span className="navbar-second-line">Cart</span>
           </a>
-          {/* <Navbar.Offcanvas
-            id={`offcanvasNavbar-expand-lg`}
-            aria-labelledby={`offcanvasNavbarLabel-expand-lg`}
-            placement="start"
-          >
-            <Offcanvas.Header closeButton>
-              <Offcanvas.Title id={`offcanvasNavbarLabel-expand-lg`}>
-                Offcanvas
-              </Offcanvas.Title>
-            </Offcanvas.Header>
-            <Offcanvas.Body>
-              <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Nav.Link href="#action1">Home</Nav.Link>
-                <Nav.Link href="#action2">Link</Nav.Link>
-                <NavDropdown
-                  title="Dropdown"
-                  id={`offcanvasNavbarDropdown-expand-lg`}
-                >
-                  <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                  <NavDropdown.Item href="#action4">
-                    Another action
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href="#action5">
-                    Something else here
-                  </NavDropdown.Item>
-                </NavDropdown>
-              </Nav>
-            </Offcanvas.Body>
-          </Navbar.Offcanvas> */}
         </Container>
       </Navbar>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<Product />} />
-        <Route path="/calendar" element={<Cart />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </>
   );
