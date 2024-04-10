@@ -1,4 +1,4 @@
-import "./login.css";
+import "./user.css";
 
 const Login = () => {
   return (
@@ -30,13 +30,16 @@ const Login = () => {
         </p>
         <hr />
         <h2>Buying for work?</h2>
-        <a href="https://www.amazon.ca/business/register/welcome?ref_=ab_reg_signin">
+        <a
+          className="big-text"
+          href="https://www.amazon.ca/business/register/welcome?ref_=ab_reg_signin"
+        >
           Shop on Amazon Buisiness
         </a>
       </div>
       <div id="signup-box">
         <p>New to Amazon?</p>
-        <a href="/sign-up" class="button">
+        <a href="/signup" class="button">
           Create your Amazon account
         </a>
       </div>

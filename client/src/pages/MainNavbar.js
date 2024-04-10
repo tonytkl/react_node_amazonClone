@@ -9,7 +9,8 @@ import { useState } from "react";
 import Home from "./home/Home";
 import Product from "./product/Product";
 import Cart from "./cart/Cart";
-import Login from "./login/Login";
+import Login from "./user/Login";
+import Signup from "./user/Signup";
 
 function MainNavbar() {
   const [cart, setCart] = useState([]);
@@ -73,6 +74,7 @@ function MainNavbar() {
         <Route path="/product/:id" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </>
   );
