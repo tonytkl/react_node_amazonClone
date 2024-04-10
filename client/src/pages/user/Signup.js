@@ -1,25 +1,78 @@
+import { useState } from "react";
 import "./user.css";
 
 const Signup = () => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirm_password: "",
+  });
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    try {
+      fetch("http://localhost:8000/user/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.errors) {
+            alert(data.errors[0].msg);
+          } else if (data.message) {
+            alert(data.message);
+            window.location.href = "/login";
+          }
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div id="login-page">
       <div id="login-window">
         <h1>Create account</h1>
-        <form method="POST">
+        <form method="POST" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="firstName">Your first name</label>
             <br />
-            <input type="text" id="firstName" name="firstName" required />
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              onChange={handleChange}
+              required
+            />
           </div>
           <div>
             <label htmlFor="lastName">Your last name</label>
             <br />
-            <input type="text" id="lastName" name="lastName" required />
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              onChange={handleChange}
+              required
+            />
           </div>
           <div>
             <label htmlFor="email">E-mail address</label>
             <br />
-            <input type="email" id="email" name="email" required />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              onChange={handleChange}
+              required
+            />
           </div>
           <div>
             <label htmlFor="password">Password</label>
@@ -29,6 +82,8 @@ const Signup = () => {
               id="password"
               name="password"
               placeHolder="At least 6 characters"
+              minLength={6}
+              onChange={handleChange}
               required
             />
             <p style={{ marginBottom: "5px" }}>
@@ -36,12 +91,14 @@ const Signup = () => {
             </p>
           </div>
           <div>
-            <label htmlFor="passwordVerify">Password again</label>
+            <label htmlFor="confirm_password">Password again</label>
             <br />
             <input
               type="password"
-              id="passwordVerify"
-              name="passwordVerify"
+              id="confirm_password"
+              name="confirm_password"
+              minLength={6}
+              onChange={handleChange}
               required
             />
           </div>

@@ -18,7 +18,8 @@ router.use(
 );
 
 router.post("/register", async (req, res) => {
-  await check("name", "Name is required").notEmpty().run(req);
+  await check("firstName", "First name is required").notEmpty().run(req);
+  await check("lastName", "Last name is required").notEmpty().run(req);
   await check("email", "Email is required").notEmpty().run(req);
   await check("email", "Email is not valid").isEmail().run(req);
   await check("password", "Password is required").notEmpty().run(req);
@@ -41,7 +42,8 @@ router.post("/register", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const newUser = new User({
-      name: req.body.name,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       email: req.body.email,
       password: hashedPassword,
     });
