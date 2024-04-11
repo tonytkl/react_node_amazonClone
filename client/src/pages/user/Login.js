@@ -1,20 +1,65 @@
+import { useState } from "react";
 import "./user.css";
 
 const Login = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    try {
+      fetch("http://localhost:8000/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.errors) {
+            alert(data.errors[0].msg);
+          } else if (data.message) {
+            alert(data.message);
+            window.location.href = "/";
+          }
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div id="login-page">
       <div id="login-window">
         <h1>Sign in</h1>
-        <form method="POST">
+        <form method="POST" onSubmit={handleLogin}>
           <div>
             <label htmlFor="email">E-mail address</label>
             <br />
-            <input type="email" id="email" name="email" required />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              onChange={handleChange}
+              required
+            />
           </div>
           <div>
             <label htmlFor="password">Password</label>
             <br />
-            <input type="password" id="password" name="password" required />
+            <input
+              type="password"
+              id="password"
+              name="password"
+              onChange={handleChange}
+              required
+            />
           </div>
           <input type="submit" id="login-button" class="button" />
         </form>

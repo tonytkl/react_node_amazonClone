@@ -5,6 +5,7 @@ const passport = require("passport");
 const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const session = require("express-session");
+require("../config/passport")(passport);
 
 let User = require("../models/user");
 
@@ -62,7 +63,6 @@ router.post("/login", async (req, res, next) => {
   await check("password", "Password is required").notEmpty().run(req);
 
   const errors = validationResult(req);
-  console.log("login requested");
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
@@ -72,10 +72,9 @@ router.post("/login", async (req, res, next) => {
       return next(err);
     }
     if (!user) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
     req.logIn(user, async (err) => {
-      console.log("logging in");
       if (err) {
         return next(err);
       }
@@ -83,10 +82,9 @@ router.post("/login", async (req, res, next) => {
         expiresIn: "1h",
       });
       console.log("token", token);
-      return res.status(200).json({ token });
+      return res.status(200).json({ token, message: "Logged in successfully" });
     });
-  });
-  console.log("authenticated");
+  })(req, res, next); // Invoke the passport.authenticate middleware function
 });
 
 router.get("/logout", (req, res) => {
