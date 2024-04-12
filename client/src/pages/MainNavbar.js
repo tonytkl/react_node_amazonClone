@@ -1,19 +1,28 @@
 import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import Offcanvas from "react-bootstrap/Offcanvas";
-import { Routes, Route, NavLink } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "./mainNavbar.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Home from "./home/Home";
 import Product from "./product/Product";
 import Cart from "./cart/Cart";
 import Login from "./user/Login";
 import Signup from "./user/Signup";
+import { jwtDecode } from "jwt-decode";
+import { getLocalToken, titleCase } from "../utils/utils";
 
 function MainNavbar() {
-  const [cart, setCart] = useState([]);
+  const cart = [];
+  const [loggedIn, setLoggedIn] = useState(getLocalToken()[0]);
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    const token = getLocalToken()[1];
+    if (token) {
+      setLoggedIn(true);
+      setUser(titleCase(jwtDecode(token).name));
+    }
+  }, []);
+
   return (
     <>
       <Navbar variant="dark" key="lg" expand="lg" className="mb-3">
@@ -51,7 +60,12 @@ function MainNavbar() {
             </span>
           </a>
           <a className="navbar-text-button" id="navbar-signin" href="/login">
-            <span className="navbar-first-line">Hello, sign in</span>
+            {loggedIn ? (
+              <span className="navbar-first-line">Hello, {user}</span>
+            ) : (
+              <span className="navbar-first-line">Hello, sign in</span>
+            )}
+
             <span className="navbar-second-line">
               Account & Lists<span class="navbar-arrow"></span>
             </span>

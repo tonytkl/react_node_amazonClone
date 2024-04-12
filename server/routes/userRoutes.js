@@ -75,16 +75,16 @@ router.post("/login", async (req, res, next) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
     req.logIn(user, async (err) => {
+      console.log("user", user);
       if (err) {
         return next(err);
       }
-      const token = jwt.sign({ id: user._id, name: user.name }, "secret", {
+      const token = jwt.sign({ id: user._id, name: user.firstName }, "secret", {
         expiresIn: "1h",
       });
-      console.log("token", token);
       return res.status(200).json({ token, message: "Logged in successfully" });
     });
-  })(req, res, next); // Invoke the passport.authenticate middleware function
+  })(req, res, next);
 });
 
 router.get("/logout", (req, res) => {
