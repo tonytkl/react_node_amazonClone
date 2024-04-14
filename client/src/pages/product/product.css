@@ -1,6 +1,9 @@
+#product-page {
+  background-color: white;
+}
 #product-page .main-container {
   min-height: 80vh;
-  margin-top: 50px;
+  padding-top: 50px;
 }
 #product-page .column {
   display: flex;

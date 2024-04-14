@@ -44,7 +44,7 @@ function MainNavbar() {
 
   return (
     <>
-      <Navbar variant="dark" key="lg" expand="lg" className="mb-3">
+      <Navbar variant="dark" key="lg" expand="lg">
         <Container fluid>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} />
           <Navbar.Brand href="/">

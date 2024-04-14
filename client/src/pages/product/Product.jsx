@@ -70,7 +70,7 @@ function Product() {
           <Row>
             <Col sm md={5} className="column">
               {" "}
-              <Carousel interval={null}>
+              <Carousel interval={null} variant="dark">
                 {product.images.map((image) => (
                   <Carousel.Item>
                     <img src={image} className="image" />
@@ -160,26 +160,29 @@ function Product() {
                     <option value={i + 1}>{i + 1}</option>
                   ))}
                 </select>
-                {isLoggedIn ? (<><button
-                  onClick={handleAddCart}
-                  className="button"
-                  id="add-to-cart"
-                >
-                  Add to Cart
-                </button>
-                <a href="/cart" className="button" id="buy-now">
-                  Buy Now
-                </a></>) : <><a
-                  href="/login"
-                  className="button"
-                  id="add-to-cart"
-                >
-                  Add to Cart
-                </a>
-                <a href="/login" className="button" id="buy-now">
-                  Buy Now
-                </a></>}
-                
+                {isLoggedIn ? (
+                  <>
+                    <button
+                      onClick={handleAddCart}
+                      className="button"
+                      id="add-to-cart"
+                    >
+                      Add to Cart
+                    </button>
+                    <a href="/cart" className="button" id="buy-now">
+                      Buy Now
+                    </a>
+                  </>
+                ) : (
+                  <>
+                    <a href="/login" className="button" id="add-to-cart">
+                      Add to Cart
+                    </a>
+                    <a href="/login" className="button" id="buy-now">
+                      Buy Now
+                    </a>
+                  </>
+                )}
               </div>
             </Col>
           </Row>
