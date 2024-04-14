@@ -1,4 +1,6 @@
+require("dotenv").config();
+
 module.exports = {
-  databaseUrl: "mongodb://127.0.0.1:27017/amazon",
+  databaseUrl: process.env.DB_URL,
   secret: "mysecretkey",
 };
