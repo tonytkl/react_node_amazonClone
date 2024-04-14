@@ -29,7 +29,7 @@ function Product() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: localStorage.getItem("token"),
+          authorization: getLocalToken()[1],
         },
         body: JSON.stringify({ productId: id, qty: qty ? parseInt(qty) : 1 }),
       })

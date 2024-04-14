@@ -1,8 +1,10 @@
 #login-page {
+  background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 350px;
+  align-items: center;
+  width: 100%;
   margin: 0 auto;
   padding-top: 50px;
   padding-bottom: 50px;
@@ -19,6 +21,7 @@
   }
 }
 #login-window {
+  width: 350px;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 20px;
@@ -68,6 +71,7 @@
   }
 }
 #signup-box {
+  width: 350px;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
