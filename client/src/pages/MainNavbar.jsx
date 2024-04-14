@@ -8,6 +8,7 @@ import Product from "./product/Product";
 import Cart from "./cart/Cart";
 import Login from "./user/Login";
 import Signup from "./user/Signup";
+import Account from "./user/Account";
 import { jwtDecode } from "jwt-decode";
 import { getLocalToken, titleCase } from "../utils/utils";
 
@@ -77,24 +78,26 @@ function MainNavbar() {
               EN<span class="navbar-arrow"></span>
             </span>
           </a>
-          <a className="navbar-text-button" id="navbar-signin" href="/login">
-            {loggedIn ? (
-              <span className="navbar-first-line">Hello, {user}</span>
+          {
+            loggedIn ? (
+              <a className="navbar-text-button" id="navbar-account" href="/account">
+                <span className="navbar-first-line">Hello, {user}</span>
+                <span className="navbar-second-line">Your Account</span>
+              </a>
             ) : (
-              <span className="navbar-first-line">Hello, sign in</span>
-            )}
-
-            <span className="navbar-second-line">
-              Account & Lists<span class="navbar-arrow"></span>
-            </span>
-          </a>
+              <a className="navbar-text-button" id="navbar-signin" href="/login">
+                <span className="navbar-first-line">Hello, sign in</span>
+                <span className="navbar-second-line">Account & Lists</span>
+              </a>
+            )
+          }
           <a className="navbar-text-button">
             <span className="navbar-first-line">Returns</span>
             <span className="navbar-second-line">& Orders</span>
           </a>
           <a className="navbar-text-button" id="navbar-cart">
             <div id="navbar-cart-container">
-              <span id="navbar-cart-quantity">{cartQty}</span>
+              <span id="navbar-cart-quantity">{cartQty ? cartQty : 0}</span>
               <span id="navbar-cart-icon"></span>
             </div>
             <span className="navbar-second-line">Cart</span>
@@ -107,6 +110,7 @@ function MainNavbar() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/account" element={<Account />} />
       </Routes>
     </>
   );

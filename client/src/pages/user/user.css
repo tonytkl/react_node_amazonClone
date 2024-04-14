@@ -54,6 +54,18 @@
   .big-text {
     font-size: 13px;
   }
+  #logout-button {
+    background-color: #f03e53;
+    color: white;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    border: none;
+    padding: 5px;
+    width: 100%;
+  }
+  #logout-button:hover {
+    background-color: #cc0c39;
+  }
 }
 #signup-box {
   margin-top: 20px;

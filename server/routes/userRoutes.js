@@ -5,6 +5,7 @@ const passport = require("passport");
 const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const session = require("express-session");
+const verifyToken = require("../utils/utils");
 require("../config/passport")(passport);
 
 let User = require("../models/user");
@@ -17,6 +18,15 @@ router.use(
     cookie: {},
   })
 );
+
+router.route("/").get(verifyToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 router.post("/register", async (req, res) => {
   await check("firstName", "First name is required").notEmpty().run(req);

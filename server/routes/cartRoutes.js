@@ -3,17 +3,8 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 
 const Cart = require("../models/cart");
-const User = require("../models/user");
 
-function verifyToken(req, res, next) {
-  const token = req.headers["authorization"];
-  if (!token) return res.status(401).send("Unauthorized");
-  jwt.verify(token, "secret", (err, decoded) => {
-    if (err) return res.status(403).send("Invalid token");
-    req.user = decoded;
-    next();
-  });
-}
+const verifyToken = require("../utils/utils");
 
 router
   .route("/")
@@ -27,14 +18,12 @@ router
         });
         await newCart.save();
       } else {
-        console.log(existingCart);
         let sumQty = 0;
         existingCart.products.length > 0
           ? existingCart.products.forEach((product) => {
               sumQty += product.qty;
             })
           : (sumQty = 0);
-        console.log(sumQty);
         res.json({ sumQty: sumQty });
       }
     } catch (error) {

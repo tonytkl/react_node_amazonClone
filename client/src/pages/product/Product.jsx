@@ -6,18 +6,19 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Carousel from "react-bootstrap/Carousel";
 
+import { getLocalToken } from "../../utils/utils";
 import "./product.css";
 
 function Product() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [qty, setQty] = useState(1);
+  const [isLoggedIn, setIsLogged] = useState(getLocalToken()[0]);
   // Fetch product data
   useEffect(() => {
     fetch(`http://localhost:8000/product/${id}`)
       .then((res) => res.json())
       .then((data) => setProduct(data));
-    console.log(product);
   }, []);
 
   // handlers
@@ -159,7 +160,7 @@ function Product() {
                     <option value={i + 1}>{i + 1}</option>
                   ))}
                 </select>
-                <button
+                {isLoggedIn ? (<><button
                   onClick={handleAddCart}
                   className="button"
                   id="add-to-cart"
@@ -168,7 +169,17 @@ function Product() {
                 </button>
                 <a href="/cart" className="button" id="buy-now">
                   Buy Now
+                </a></>) : <><a
+                  href="/login"
+                  className="button"
+                  id="add-to-cart"
+                >
+                  Add to Cart
                 </a>
+                <a href="/login" className="button" id="buy-now">
+                  Buy Now
+                </a></>}
+                
               </div>
             </Col>
           </Row>
