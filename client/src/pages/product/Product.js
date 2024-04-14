@@ -11,12 +11,39 @@ import "./product.css";
 function Product() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [qty, setQty] = useState(1);
+  // Fetch product data
   useEffect(() => {
     fetch(`http://localhost:8000/product/${id}`)
       .then((res) => res.json())
       .then((data) => setProduct(data));
     console.log(product);
   }, []);
+
+  // handlers
+  const handleQtyChange = (e) => setQty(e.target.value);
+  const handleAddCart = () => {
+    try {
+      fetch("http://localhost:8000/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: localStorage.getItem("token"),
+        },
+        body: JSON.stringify({ productId: id, qty: qty ? parseInt(qty) : 1 }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.errors) {
+            alert(data.errors[0].msg);
+          } else {
+            alert(data);
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   // Get time difference in hours and minutes from now to midnight
   const getHoursAndMinutes = () => {
@@ -124,7 +151,7 @@ function Product() {
                   <h3 style={{ color: "red" }}>Out of Stock</h3>
                 )}
 
-                <select className="qty-select">
+                <select className="qty-select" onChange={handleQtyChange}>
                   <option value="" disabled selected>
                     Quantity: 1
                   </option>
@@ -132,12 +159,16 @@ function Product() {
                     <option value={i + 1}>{i + 1}</option>
                   ))}
                 </select>
-                <button className="button" id="add-to-cart">
+                <button
+                  onClick={handleAddCart}
+                  className="button"
+                  id="add-to-cart"
+                >
                   Add to Cart
                 </button>
-                <button className="button" id="buy-now">
+                <a href="/cart" className="button" id="buy-now">
                   Buy Now
-                </button>
+                </a>
               </div>
             </Col>
           </Row>

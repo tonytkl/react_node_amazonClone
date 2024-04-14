@@ -5,6 +5,7 @@ const config = require("./config/database");
 
 const productRoutes = require("./routes/productRoutes");
 const userRoutes = require("./routes/userRoutes");
+const cartRoutes = require("./routes/cartRoutes");
 const Product = require("./models/product");
 
 // Express app
@@ -26,6 +27,7 @@ db.on("error", function (err) {
 // Routes
 app.use("/product", productRoutes);
 app.use("/user", userRoutes);
+app.use("/cart", cartRoutes);
 app.get("/", async (req, res) => {
   let categories = await Product.find().distinct("category");
   // const NUM_CATEGORIES_TO_FETCH = 5;

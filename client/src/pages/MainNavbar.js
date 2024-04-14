@@ -12,14 +12,32 @@ import { jwtDecode } from "jwt-decode";
 import { getLocalToken, titleCase } from "../utils/utils";
 
 function MainNavbar() {
-  const cart = [];
+  const [cartQty, setCart] = useState();
   const [loggedIn, setLoggedIn] = useState(getLocalToken()[0]);
   const [user, setUser] = useState("");
   useEffect(() => {
+    // Check if user is logged in
     const token = getLocalToken()[1];
     if (token) {
       setLoggedIn(true);
       setUser(titleCase(jwtDecode(token).name));
+
+      // Fetch cart
+      fetch("http://localhost:8000/cart", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: token,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.errors) {
+            alert(data.errors[0].msg);
+          } else {
+            setCart(data.sumQty);
+          }
+        });
     }
   }, []);
 
@@ -76,7 +94,7 @@ function MainNavbar() {
           </a>
           <a className="navbar-text-button" id="navbar-cart">
             <div id="navbar-cart-container">
-              <span id="navbar-cart-quantity">{cart.length}</span>
+              <span id="navbar-cart-quantity">{cartQty}</span>
               <span id="navbar-cart-icon"></span>
             </div>
             <span className="navbar-second-line">Cart</span>
