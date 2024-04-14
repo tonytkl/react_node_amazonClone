@@ -7,8 +7,6 @@ function Account() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    console.log("Account page");
-    console.log(getLocalToken());
     fetch("http://localhost:8000/user", {
       method: "GET",
       headers: {

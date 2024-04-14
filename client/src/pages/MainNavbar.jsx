@@ -24,7 +24,7 @@ function MainNavbar() {
       setUser(titleCase(jwtDecode(token).name));
 
       // Fetch cart
-      fetch("http://localhost:8000/cart", {
+      fetch("http://localhost:8000/cart/qty", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -78,30 +78,42 @@ function MainNavbar() {
               EN<span class="navbar-arrow"></span>
             </span>
           </a>
-          {
-            loggedIn ? (
-              <a className="navbar-text-button" id="navbar-account" href="/account">
-                <span className="navbar-first-line">Hello, {user}</span>
-                <span className="navbar-second-line">Your Account</span>
-              </a>
-            ) : (
-              <a className="navbar-text-button" id="navbar-signin" href="/login">
-                <span className="navbar-first-line">Hello, sign in</span>
-                <span className="navbar-second-line">Account & Lists</span>
-              </a>
-            )
-          }
+          {loggedIn ? (
+            <a
+              className="navbar-text-button"
+              id="navbar-account"
+              href="/account"
+            >
+              <span className="navbar-first-line">Hello, {user}</span>
+              <span className="navbar-second-line">Your Account</span>
+            </a>
+          ) : (
+            <a className="navbar-text-button" id="navbar-signin" href="/login">
+              <span className="navbar-first-line">Hello, sign in</span>
+              <span className="navbar-second-line">Account & Lists</span>
+            </a>
+          )}
           <a className="navbar-text-button">
             <span className="navbar-first-line">Returns</span>
             <span className="navbar-second-line">& Orders</span>
           </a>
-          <a className="navbar-text-button" id="navbar-cart">
-            <div id="navbar-cart-container">
-              <span id="navbar-cart-quantity">{cartQty ? cartQty : 0}</span>
-              <span id="navbar-cart-icon"></span>
-            </div>
-            <span className="navbar-second-line">Cart</span>
-          </a>
+          {loggedIn ? (
+            <a className="navbar-text-button" id="navbar-cart" href="/cart">
+              <div id="navbar-cart-container">
+                <span id="navbar-cart-quantity">{cartQty ? cartQty : 0}</span>
+                <span id="navbar-cart-icon"></span>
+              </div>
+              <span className="navbar-second-line">Cart</span>
+            </a>
+          ) : (
+            <a className="navbar-text-button" id="navbar-cart" href="/login">
+              <div id="navbar-cart-container">
+                <span id="navbar-cart-quantity">{cartQty ? cartQty : 0}</span>
+                <span id="navbar-cart-icon"></span>
+              </div>
+              <span className="navbar-second-line">Cart</span>
+            </a>
+          )}
         </Container>
       </Navbar>
       <Routes>
