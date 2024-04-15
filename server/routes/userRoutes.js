@@ -5,6 +5,7 @@ const passport = require("passport");
 const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const verifyToken = require("../utils/utils");
 require("../config/passport")(passport);
 
@@ -16,6 +17,7 @@ router.use(
     resave: false,
     saveUninitialized: false,
     cookie: {},
+    store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
   })
 );
 

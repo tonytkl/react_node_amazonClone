@@ -4,7 +4,6 @@ const Cart = require("../models/cart");
 const Product = require("../models/product");
 
 const verifyToken = require("../utils/utils");
-const e = require("express");
 
 router
   .route("/")

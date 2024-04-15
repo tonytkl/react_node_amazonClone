@@ -25,7 +25,7 @@ function MainNavbar() {
       setUser(titleCase(jwtDecode(token).name));
 
       // Fetch cart
-      fetch(endPoint + "/qty", {
+      fetch(endPoint + "/cart/qty", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
