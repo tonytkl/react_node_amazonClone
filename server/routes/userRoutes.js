@@ -10,6 +10,7 @@ const verifyToken = require("../utils/utils");
 require("../config/passport")(passport);
 
 let User = require("../models/user");
+const config = require("../config/database");
 
 router.use(
   session({
@@ -17,7 +18,7 @@ router.use(
     resave: false,
     saveUninitialized: false,
     cookie: {},
-    store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
+    store: MongoStore.create({ mongoUrl: config.databaseUrl }),
   })
 );
 
