@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./user.css";
+import { endPoint } from "../../config/constant";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -13,7 +14,7 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     try {
-      fetch("http://localhost:8000/user/login", {
+      fetch(endPoint + "/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

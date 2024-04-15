@@ -11,6 +11,7 @@ import Signup from "./user/Signup";
 import Account from "./user/Account";
 import { jwtDecode } from "jwt-decode";
 import { getLocalToken, titleCase } from "../utils/utils";
+import { endPoint } from "../config/constant";
 
 function MainNavbar() {
   const [cartQty, setCart] = useState();
@@ -24,7 +25,7 @@ function MainNavbar() {
       setUser(titleCase(jwtDecode(token).name));
 
       // Fetch cart
-      fetch("http://localhost:8000/cart/qty", {
+      fetch(endPoint + "/qty", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

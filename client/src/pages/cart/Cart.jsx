@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { getLocalToken } from "../../utils/utils";
+import { endPoint } from "../../config/constant";
 import "./cart.css";
 
 function Cart() {
   const [cart, setCart] = useState([]);
   const [sum, setSum] = useState(0);
   useEffect(() => {
-    fetch("http://localhost:8000/cart", {
+    fetch(endPoint + "/cart", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

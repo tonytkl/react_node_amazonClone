@@ -6,6 +6,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Carousel from "react-bootstrap/Carousel";
 
+import { endPoint } from "../../config/constant";
 import { getLocalToken } from "../../utils/utils";
 import "./product.css";
 
@@ -16,7 +17,7 @@ function Product() {
   const [isLoggedIn, setIsLogged] = useState(getLocalToken()[0]);
   // Fetch product data
   useEffect(() => {
-    fetch(`http://localhost:8000/product/${id}`)
+    fetch(`${endPoint}/product/${id}`)
       .then((res) => res.json())
       .then((data) => setProduct(data));
   }, []);
@@ -25,7 +26,7 @@ function Product() {
   const handleQtyChange = (e) => setQty(e.target.value);
   const handleAddCart = () => {
     try {
-      fetch("http://localhost:8000/cart", {
+      fetch(endPoint + "/cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

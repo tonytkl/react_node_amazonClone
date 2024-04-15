@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./user.css";
+import { endPoint } from "../../config/constant";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -15,7 +16,7 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      fetch("http://localhost:8000/user/register", {
+      fetch(endPoint + "/user/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

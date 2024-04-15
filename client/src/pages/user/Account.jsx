@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import { titleCase } from "../../utils/utils";
 import "./user.css";
 import { getLocalToken } from "../../utils/utils";
+import { endPoint } from "../../config/constant";
 
 function Account() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8000/user", {
+    fetch(endPoint + "/user", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +27,7 @@ function Account() {
 
   const handleLogout = () => {
     try {
-      fetch("http://localhost:8000/user/logout", {
+      fetch(endPoint + "/user/logout", {
         method: "POST",
       });
     } catch (error) {
