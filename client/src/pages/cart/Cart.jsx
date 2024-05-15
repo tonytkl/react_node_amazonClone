@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+
+import MoonLoader from "react-spinners/MoonLoader";
+
 import { getLocalToken } from "../../utils/utils";
 import { endPoint } from "../../config/constant";
 import "./cart.css";
@@ -7,6 +10,8 @@ import "./cart.css";
 function Cart() {
   const [cart, setCart] = useState([]);
   const [sum, setSum] = useState(0);
+  const [isLoading, setLoading] = useState(true);
+
   useEffect(() => {
     fetch(endPoint + "/cart", {
       method: "GET",
@@ -24,12 +29,23 @@ function Cart() {
           data.products.forEach((product) => {
             setSum((prev) => prev + product.price * product.qty);
           });
+          setLoading(false);
         }
       });
   }, []);
 
   return (
     <div id="cart-page">
+      <MoonLoader
+        color="#131921"
+        loading={isLoading}
+        size={50}
+        cssOverride={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+        }}
+      />
       <Container>
         <Row>
           <Col sm md={8}>

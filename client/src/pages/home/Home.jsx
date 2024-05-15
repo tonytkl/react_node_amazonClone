@@ -1,25 +1,34 @@
 import { useState, useEffect } from "react";
 import { endPoint, totitleCase } from "../../config/constant";
-import { getLocalToken } from "../../utils/utils";
+import MoonLoader from "react-spinners/MoonLoader";
 import "./home.css";
-import { jwtDecode } from "jwt-decode";
 
 function Home() {
   const [data, setData] = useState(null);
-  // const token = localStorage.getItem("token");
-  // console.log(jwtDecode(token));
-  // const [loggedIn, setLoggedIn] = useState(isLoggedIn()[0]);
-  // if (loggedIn) console.log("Logged in as: ", isLoggedIn()[1]);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(endPoint)
       .then((res) => res.json())
-      .then((data) => setData(data))
+      .then((data) => {
+        setData(data);
+        setLoading(false);
+      })
       .catch((err) => console.error(err));
   }, []);
 
   return (
     <div id="homepage">
+      <MoonLoader
+        color="#131921"
+        loading={isLoading}
+        size={50}
+        cssOverride={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+        }}
+      />
       {data &&
         Object.keys(data).map((key) => {
           return (

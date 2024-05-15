@@ -6,6 +6,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Carousel from "react-bootstrap/Carousel";
 
+import MoonLoader from "react-spinners/MoonLoader";
+
 import { endPoint } from "../../config/constant";
 import { getLocalToken } from "../../utils/utils";
 import "./product.css";
@@ -15,11 +17,16 @@ function Product() {
   const [product, setProduct] = useState(null);
   const [qty, setQty] = useState(1);
   const [isLoggedIn, setIsLogged] = useState(getLocalToken()[0]);
+  const [isLoading, setLoading] = useState(true);
+
   // Fetch product data
   useEffect(() => {
     fetch(`${endPoint}/product/${id}`)
       .then((res) => res.json())
-      .then((data) => setProduct(data));
+      .then((data) => {
+        setProduct(data);
+        setLoading(false);
+      });
   }, []);
 
   // handlers
@@ -66,6 +73,16 @@ function Product() {
 
   return (
     <div id="product-page">
+      <MoonLoader
+        color="#131921"
+        loading={isLoading}
+        size={50}
+        cssOverride={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+        }}
+      />
       {product && (
         <Container className="main-container">
           <Row>
