@@ -27,9 +27,11 @@ const Login = () => {
             alert(data.errors[0].msg);
           } else if (data.message) {
             alert(data.message);
-            const token = data.token;
-            localStorage.setItem("token", token);
-            window.location.href = "/";
+            if (data.token) {
+              const token = data.token;
+              localStorage.setItem("token", token);
+              window.location.href = "/";
+            }
           }
         });
     } catch (error) {
