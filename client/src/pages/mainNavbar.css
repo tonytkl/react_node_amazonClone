@@ -20,6 +20,11 @@ nav {
   border: none !important;
   border-color: none !important;
 }
+@media (max-width: 991px) {
+  .navbar {
+    padding-bottom: 15px !important;
+  }
+}
 
 /* ####################### */
 
@@ -28,6 +33,9 @@ nav {
   margin-top: 3px;
   margin-bottom: 4px;
   margin-left: 5px;
+  height: 60px;
+  display: flex;
+  align-items: center;
 }
 .navbar-brand:hover {
   border: 1px solid white;
