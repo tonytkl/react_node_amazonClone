@@ -1,17 +1,22 @@
+import { useEffect, useState } from "react";
+
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
+
 import { Routes, Route } from "react-router-dom";
-import "./mainNavbar.css";
-import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
+
 import Home from "./home/Home";
 import Product from "./product/Product";
 import Cart from "./cart/Cart";
 import Login from "./user/Login";
 import Signup from "./user/Signup";
 import Account from "./user/Account";
-import { jwtDecode } from "jwt-decode";
+
 import { getLocalToken, titleCase } from "../utils/utils";
 import { endPoint } from "../config/constant";
+
+import "./mainNavbar.css";
 
 function MainNavbar() {
   const [cartQty, setCart] = useState();
@@ -45,13 +50,22 @@ function MainNavbar() {
 
   return (
     <>
-      <Navbar variant="dark" key="lg" expand="lg">
+      <Navbar
+        variant="dark"
+        key="lg"
+        expand="lg"
+        className="d-flex flex-row justify-content-start"
+      >
         <Container fluid>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} />
-          <Navbar.Brand href="/">
+          <Navbar.Brand href="/" className="mr-auto">
             <div id="logo"></div>
           </Navbar.Brand>
-          <a className="navbar-text-button" id="navbar-delivery">
+          {/* Delivering button only on lg or more */}
+          <div
+            className="navbar-text-button d-none d-lg-flex"
+            id="navbar-delivery"
+          >
             <div id="navbar-delivery-icon"></div>
             <div id="navbar-delivery-text">
               <span className="navbar-first-line">
@@ -59,11 +73,70 @@ function MainNavbar() {
               </span>
               <span className="navbar-second-line">Update location</span>
             </div>
-          </a>
-          <form id="navbar-search-bar">
+          </div>
+
+          {/* Empty div to fill the gap for less than lg */}
+          <div className="d-lg-none flex-grow-1"></div>
+
+          {/* User button for screen smaller than lg */}
+          {loggedIn ? (
+            // If user is logged in, show account button
+            <a
+              className="navbar-text-button d-lg-none"
+              id="navbar-account"
+              href="/account"
+            >
+              <span className="navbar-first-line">Hello, {user}</span>
+              <span className="navbar-second-line">Your Account</span>
+            </a>
+          ) : (
+            // If user is not logged in, show sign in button
+            <a
+              className="navbar-text-button d-lg-none"
+              id="navbar-signin"
+              href="/login"
+            >
+              <span className="navbar-first-line">Hello, sign in</span>
+              <span className="navbar-second-line">Account & Lists</span>
+            </a>
+          )}
+
+          {/* Cart button for screen smaller than lg*/}
+          {loggedIn ? (
+            // Cart button with the respective link based on login status
+            <a
+              className="navbar-text-button d-lg-none "
+              id="navbar-cart"
+              href="/cart"
+            >
+              <div id="navbar-cart-container">
+                <span id="navbar-cart-quantity">{cartQty ? cartQty : 0}</span>
+                <span id="navbar-cart-icon"></span>
+              </div>
+              <span className="navbar-second-line">Cart</span>
+            </a>
+          ) : (
+            <a
+              className="navbar-text-button d-lg-none"
+              id="navbar-cart"
+              href="/login"
+            >
+              <div id="navbar-cart-container">
+                <span id="navbar-cart-quantity">{cartQty ? cartQty : 0}</span>
+                <span id="navbar-cart-icon"></span>
+              </div>
+              <span className="navbar-second-line">Cart</span>
+            </a>
+          )}
+
+          {/* Search bar */}
+          <form
+            id="navbar-search-bar"
+            className="form-inline col-12 col-lg-auto flex-lg-grow-1"
+          >
             <div id="navbar-search-dropdown">
               <span id="navbar-search-dropdown-text">All</span>
-              <span class="navbar-arrow"></span>
+              <span className="navbar-arrow"></span>
             </div>
             <input
               type="text"
@@ -73,15 +146,23 @@ function MainNavbar() {
             />
             <span id="navbar-search-icon"></span>
           </form>
-          <a className="navbar-text-button" id="navbar-language">
+
+          {/* Language change button for lg or more */}
+          <div
+            className="navbar-text-button d-none d-lg-flex"
+            id="navbar-language"
+          >
             <span id="navbar-flag"></span>
             <span id="navbar-language-text" className="navbar-second-line">
-              EN<span class="navbar-arrow"></span>
+              EN<span className="navbar-arrow"></span>
             </span>
-          </a>
+          </div>
+
+          {/* User button for screen larger than lg */}
           {loggedIn ? (
+            // If user is logged in, show account button
             <a
-              className="navbar-text-button"
+              className="navbar-text-button d-none d-lg-flex"
               id="navbar-account"
               href="/account"
             >
@@ -89,17 +170,31 @@ function MainNavbar() {
               <span className="navbar-second-line">Your Account</span>
             </a>
           ) : (
-            <a className="navbar-text-button" id="navbar-signin" href="/login">
+            // If user is not logged in, show sign in button
+            <a
+              className="navbar-text-button d-none d-lg-flex"
+              id="navbar-signin"
+              href="/login"
+            >
               <span className="navbar-first-line">Hello, sign in</span>
               <span className="navbar-second-line">Account & Lists</span>
             </a>
           )}
-          <a className="navbar-text-button">
+
+          {/* Return button for lg or more */}
+          <div className="navbar-text-button d-none d-lg-flex">
             <span className="navbar-first-line">Returns</span>
             <span className="navbar-second-line">& Orders</span>
-          </a>
+          </div>
+
+          {/* Cart button for screen larger than lg */}
           {loggedIn ? (
-            <a className="navbar-text-button" id="navbar-cart" href="/cart">
+            // Cart button with the respective link based on login status
+            <a
+              className="navbar-text-button d-none d-lg-flex"
+              id="navbar-cart"
+              href="/cart"
+            >
               <div id="navbar-cart-container">
                 <span id="navbar-cart-quantity">{cartQty ? cartQty : 0}</span>
                 <span id="navbar-cart-icon"></span>
@@ -107,7 +202,11 @@ function MainNavbar() {
               <span className="navbar-second-line">Cart</span>
             </a>
           ) : (
-            <a className="navbar-text-button" id="navbar-cart" href="/login">
+            <a
+              className="navbar-text-button d-none d-lg-flex"
+              id="navbar-cart"
+              href="/login"
+            >
               <div id="navbar-cart-container">
                 <span id="navbar-cart-quantity">{cartQty ? cartQty : 0}</span>
                 <span id="navbar-cart-icon"></span>
