@@ -20,11 +20,6 @@ nav {
   border: none !important;
   border-color: none !important;
 }
-@media (max-width: 991px) {
-  .navbar {
-    padding-bottom: 15px !important;
-  }
-}
 
 /* ####################### */
 
@@ -220,4 +215,34 @@ nav {
   height: 26px;
   display: flex;
   justify-content: center;
+}
+
+/* ############################# */
+/*  Media query for small screen */
+/* ############################# */
+@media (max-width: 991px) {
+  .navbar {
+    padding-bottom: 15px !important;
+    .navbar-brand {
+      margin-left: 0;
+    }
+    #logo {
+      transform: scale(0.8);
+    }
+    .navbar-text-button {
+      margin-left: 0;
+      .navbar-first-line {
+        font-size: 12px;
+      }
+      .navbar-second-line {
+        font-size: 10px;
+      }
+      #navbar-cart-icon {
+        transform: scale(0.8);
+      }
+    }
+    #navbar-cart-quantity {
+      right: 60px !important;
+    }
+  }
 }
