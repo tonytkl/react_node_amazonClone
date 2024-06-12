@@ -7,6 +7,7 @@ const productRoutes = require("./routes/productRoutes");
 const userRoutes = require("./routes/userRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const Product = require("./models/product");
+const Banner = require("./models/banner");
 
 // Express app
 const app = express();
@@ -28,6 +29,7 @@ db.on("error", function (err) {
 app.use("/product", productRoutes);
 app.use("/user", userRoutes);
 app.use("/cart", cartRoutes);
+
 app.get("/", async (req, res) => {
   let categories = await Product.find().distinct("category");
   // const NUM_CATEGORIES_TO_FETCH = 5;
@@ -40,7 +42,13 @@ app.get("/", async (req, res) => {
     data = { ...data, [selectedCategory]: products };
     categories = categories.filter((category) => category !== selectedCategory);
   }
-  res.json(data);
+  let banner = [];
+  try {
+    banner = await Banner.find();
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+  res.json({ data, banner });
 });
 
 const PORT = process.env.PORT || 8000;

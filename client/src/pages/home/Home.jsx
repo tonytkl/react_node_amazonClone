@@ -11,7 +11,7 @@ function Home() {
     fetch(endPoint)
       .then((res) => res.json())
       .then((data) => {
-        setData(data);
+        setData(data.data);
         setLoading(false);
       })
       .catch((err) => console.error(err));
