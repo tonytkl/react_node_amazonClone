@@ -1,17 +1,25 @@
 import { useState, useEffect } from "react";
-import { endPoint, totitleCase } from "../../config/constant";
+import { toTitleCase } from "../../utils/utils";
 import MoonLoader from "react-spinners/MoonLoader";
 import "./home.css";
 
 function Home() {
-  const [data, setData] = useState(null);
+  const [products, setProducts] = useState(null);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(endPoint)
+    fetch(`${process.env.REACT_APP_PRODUCT_API_URL}?limit=0`)
       .then((res) => res.json())
       .then((data) => {
-        setData(data.data);
+        const products = data.products;
+        const productCategories = products.reduce((acc, product) => {
+          if (!acc[product.category]) {
+            acc[product.category] = [];
+          }
+          acc[product.category].push(product);
+          return acc;
+        }, {});
+        setProducts(productCategories);
         setLoading(false);
       })
       .catch((err) => console.error(err));
@@ -29,22 +37,26 @@ function Home() {
           left: "50%",
         }}
       />
-      {data &&
-        Object.keys(data).map((key) => {
+      {products &&
+        Object.keys(products).map((key) => {
           return (
             <div key={key} className="category">
-              <h2>{totitleCase(key)}</h2>
+              <h2>{toTitleCase(key)}</h2>
               <div className="product-list">
-                {data[key].map((product) => {
+                {products[key].map((product) => {
                   return (
                     <a
                       key={product._id}
                       className="product-card"
-                      href={`/product/${product._id}`}
+                      href={`/product/${product.id}`}
                     >
-                      <img src={product.images[0]} className="product-image" />
-                      <p>{totitleCase(product.title)}</p>
-                      <p>${product.price}</p>
+                      <img
+                        src={product.images[0]}
+                        className="product-image"
+                        alt="product"
+                      />
+                      <p>{toTitleCase(product.title)}</p>
+                      <p>${product.price.toLocaleString()}</p>
                     </a>
                   );
                 })}

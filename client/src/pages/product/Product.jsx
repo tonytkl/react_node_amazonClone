@@ -8,8 +8,7 @@ import Carousel from "react-bootstrap/Carousel";
 
 import MoonLoader from "react-spinners/MoonLoader";
 
-import { endPoint } from "../../config/constant";
-import { getLocalToken } from "../../utils/utils";
+import { getLocalToken, toTitleCase } from "../../utils/utils";
 import "./product.css";
 
 function Product() {
@@ -21,7 +20,7 @@ function Product() {
 
   // Fetch product data
   useEffect(() => {
-    fetch(`${endPoint}/product/${id}`)
+    fetch(`${process.env.REACT_APP_PRODUCT_API_URL}/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setProduct(data);
@@ -33,7 +32,7 @@ function Product() {
   const handleQtyChange = (e) => setQty(e.target.value);
   const handleAddCart = () => {
     try {
-      fetch(endPoint + "/cart", {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/cart`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -101,7 +100,7 @@ function Product() {
               <hr />
               <span className="price-container">
                 <span className="dollar-sign">$</span>
-                <h2 className="price">{product.price}</h2>
+                <h2 className="price">{product.price.toLocaleString()}</h2>
               </span>
               <Container>
                 <Row>
@@ -117,7 +116,7 @@ function Product() {
                     <h3>Category</h3>
                   </Col>
                   <Col>
-                    <p>{product.category}</p>
+                    <p>{toTitleCase(product.category)}</p>
                   </Col>
                 </Row>
               </Container>
@@ -129,7 +128,7 @@ function Product() {
               <div className="button-container">
                 <span className="price-container">
                   <span className="dollar-sign">$</span>
-                  <h2 className="price">{product.price}</h2>
+                  <h2 className="price">{product.price.toLocaleString()}</h2>
                 </span>
                 <p>
                   <span className="text-link">FREE delivery</span>

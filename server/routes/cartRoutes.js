@@ -17,18 +17,7 @@ router
         });
         await newCart.save();
       } else {
-        let products = existingCart.products.map(async (product) => {
-          const productDetails = await Product.findById(product.productId);
-          return {
-            id: productDetails._id,
-            title: productDetails.title,
-            price: productDetails.price,
-            image: productDetails.thumbnail,
-            qty: product.qty,
-          };
-        });
-
-        res.json({ products: await Promise.all(products) });
+        res.json({ products: await Promise.all(existingCart.products) });
       }
     } catch (error) {
       res.status(500).json({ message: error.message });

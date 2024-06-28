@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
-import { titleCase } from "../../utils/utils";
+import { toTitleCase } from "../../utils/utils";
 import "./user.css";
 import { getLocalToken } from "../../utils/utils";
-import { endPoint } from "../../config/constant";
 
 function Account() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetch(endPoint + "/user", {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/user`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -27,7 +26,7 @@ function Account() {
 
   const handleLogout = () => {
     try {
-      fetch(endPoint + "/user/logout", {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/user/logout`, {
         method: "POST",
       });
     } catch (error) {
@@ -44,7 +43,7 @@ function Account() {
             <h1>Account details</h1>
             <h2>Name</h2>
             <p>
-              {titleCase(user.firstName)} {titleCase(user.lastName)}
+              {toTitleCase(user.firstName)} {toTitleCase(user.lastName)}
             </p>
             <hr />
             <h2>Email</h2>

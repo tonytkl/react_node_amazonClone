@@ -13,8 +13,7 @@ import Login from "./user/Login";
 import Signup from "./user/Signup";
 import Account from "./user/Account";
 
-import { getLocalToken, titleCase } from "../utils/utils";
-import { endPoint } from "../config/constant";
+import { getLocalToken, toTitleCase } from "../utils/utils";
 
 import "./mainNavbar.css";
 
@@ -27,10 +26,10 @@ function MainNavbar() {
     const token = getLocalToken()[1];
     if (token) {
       setLoggedIn(true);
-      setUser(titleCase(jwtDecode(token).name));
+      setUser(toTitleCase(jwtDecode(token).name));
 
       // Fetch cart
-      fetch(endPoint + "/cart/qty", {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/cart/qty`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

@@ -16,9 +16,9 @@ export const getLocalToken = () => {
   }
 };
 
-export const titleCase = (str) => {
+export const toTitleCase = (str) => {
   return str
-    .split(" ")
+    .split(/[ -]/)
     .map((word) => word[0].toUpperCase() + word.slice(1))
     .join(" ");
 };

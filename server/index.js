@@ -26,29 +26,17 @@ db.on("error", function (err) {
 });
 
 // Routes
-app.use("/product", productRoutes);
 app.use("/user", userRoutes);
 app.use("/cart", cartRoutes);
 
 app.get("/", async (req, res) => {
-  let categories = await Product.find().distinct("category");
-  // const NUM_CATEGORIES_TO_FETCH = 5;
-  const NUM_CATEGORIES_TO_FETCH = categories.length;
-  let data = {};
-  for (i = 0; i < NUM_CATEGORIES_TO_FETCH; i++) {
-    let selectedCategory =
-      categories[Math.floor(Math.random() * categories.length)];
-    let products = await Product.find({ category: selectedCategory });
-    data = { ...data, [selectedCategory]: products };
-    categories = categories.filter((category) => category !== selectedCategory);
-  }
   let banner = [];
   try {
     banner = await Banner.find();
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-  res.json({ data, banner });
+  res.json({ banner });
 });
 
 const PORT = process.env.PORT || 8000;

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./user.css";
-import { endPoint } from "../../config/constant";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +13,7 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     try {
-      fetch(endPoint + "/user/login", {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
