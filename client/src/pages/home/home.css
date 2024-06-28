@@ -21,3 +21,20 @@
 .product-image {
   height: 250px;
 }
+.banner-image {
+  height: 300px;
+  width: 100%;
+  object-fit: cover;
+  object-position: 5% 0%;
+}
+
+/* ############################# */
+/*  Media query for small screen */
+/* ############################# */
+
+@media (max-width: 991px) {
+  .banner-image {
+    height: 100px;
+    object-position: 5% 0%;
+  }
+}

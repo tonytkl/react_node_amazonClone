@@ -1,16 +1,23 @@
 import { useState, useEffect } from "react";
 import { toTitleCase } from "../../utils/utils";
+
+import Carousel from "react-bootstrap/Carousel";
 import MoonLoader from "react-spinners/MoonLoader";
+
 import "./home.css";
 
 function Home() {
   const [products, setProducts] = useState(null);
+  const [banners, setBanners] = useState(null);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_PRODUCT_API_URL}?limit=0`)
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.REACT_APP_PRODUCT_API_URL}?limit=0`
+        );
+        const data = await res.json();
         const products = data.products;
         const productCategories = products.reduce((acc, product) => {
           if (!acc[product.category]) {
@@ -20,9 +27,26 @@ function Home() {
           return acc;
         }, {});
         setProducts(productCategories);
-        setLoading(false);
-      })
-      .catch((err) => console.error(err));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    const fetchBanners = async () => {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}`);
+        const data = await res.json();
+        setBanners(data.banner);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    const fetchAll = async () => {
+      await fetchProducts();
+      await fetchBanners();
+      console.log(banners);
+      setLoading(false);
+    };
+    fetchAll();
   }, []);
 
   return (
@@ -37,6 +61,21 @@ function Home() {
           left: "50%",
         }}
       />
+      {banners && (
+        <Carousel interval={5000} variant="dark" indicators={false}>
+          {banners.map((banner) => (
+            <Carousel.Item>
+              <a href={banner.linkUrl}>
+                <img
+                  src={banner.imgUrl}
+                  className="banner-image"
+                  alt="banner"
+                />
+              </a>
+            </Carousel.Item>
+          ))}
+        </Carousel>
+      )}
       {products &&
         Object.keys(products).map((key) => {
           return (
